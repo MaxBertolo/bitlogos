@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BITLOGOS Activity Dashboard</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d2b57">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BITLOGOS">
+<style>
+:root{--bg:#f3f6fb;--p:#fff;--p2:#eef3f9;--t:#172033;--m:#667085;--l:#dfe6ef;--b:#165dff;--r:#dc2626;--g:#16a34a;--a:#f59e0b;--s:250px}
+body.dark{--bg:#0f172a;--p:#172033;--p2:#202b40;--t:#edf2ff;--m:#a7b2c5;--l:#2d3950;--b:#4d8dff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t)}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:var(--s) 1fr;min-height:100vh}.app.collapsed{--s:76px}
+aside{position:sticky;top:0;height:100vh;overflow:auto;background:#0d2b57;color:#fff;padding:16px 12px}.brand{display:flex;gap:10px;align-items:center;padding:6px 8px 18px}.logo{width:42px;height:42px;border-radius:12px;background:#2f7cff;display:grid;place-items:center;font-weight:800}.brand small{display:block;opacity:.7}
+.app.collapsed .brand span,.app.collapsed .cat-name,.app.collapsed .cat-actions,.app.collapsed .side-title{display:none}
+.side-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;opacity:.6;padding:18px 10px 7px}
+.cat,.side-btn{width:100%;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:8px;padding:9px;border-radius:9px;text-align:left}.cat:hover,.side-btn:hover{background:#ffffff1f}.cat-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.count{background:#ffffff24;border-radius:99px;padding:2px 7px;font-size:11px}.cat-actions button{border:0;background:transparent;color:#fff}
+main{min-width:0}.header{position:sticky;top:0;z-index:10;display:flex;gap:10px;align-items:center;padding:12px 18px;background:var(--p);border-bottom:1px solid var(--l)}.search{flex:1;max-width:760px}.search input{width:100%;padding:11px;border:1px solid var(--l);border-radius:9px;background:var(--p);color:var(--t)}
+.btn,.icon{border:1px solid var(--l);background:var(--p);color:var(--t);border-radius:9px;padding:9px 12px}.icon{width:40px;height:40px;padding:0}.primary{background:var(--b);border-color:var(--b);color:#fff}.danger{background:var(--r);border-color:var(--r);color:#fff}
+.content{padding:20px;max-width:1700px;margin:auto}.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:15px}.head h1{margin:0;font-size:25px}.head p{margin:4px 0;color:var(--m)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:12px}.kpi{background:var(--p);border:1px solid var(--l);border-radius:12px;padding:14px}.kpi span{color:var(--m);font-size:13px}.kpi b{display:block;font-size:26px;margin-top:5px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;background:var(--p);border:1px solid var(--l);border-radius:12px;padding:11px;margin-bottom:12px}.toolbar select{padding:8px;border:1px solid var(--l);border-radius:8px;background:var(--p);color:var(--t)}
+.wrap{overflow:auto;background:var(--p);border:1px solid var(--l);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:1100px}th,td{padding:11px;border-bottom:1px solid var(--l);text-align:left;font-size:13px;vertical-align:middle}th{background:var(--p2);position:sticky;top:0;white-space:nowrap}tbody tr{cursor:pointer}tbody tr:hover td{background:color-mix(in srgb,var(--b) 5%,var(--p))}
+.badge{display:inline-block;padding:4px 8px;border-radius:99px;background:var(--p2);border:1px solid var(--l);font-size:11px;font-weight:700}.blue{background:var(--b);border-color:var(--b);color:#fff}.green{background:var(--g);border-color:var(--g);color:#fff}.amber{background:#fbbf24;border-color:#fbbf24;color:#111}.red{background:var(--r);border-color:var(--r);color:#fff}.flags{display:flex;gap:5px;flex-wrap:wrap}.flag{padding:4px 7px;border-radius:8px;background:var(--p2);border:1px solid var(--l)}.desc{max-width:320px;white-space:normal;line-height:1.35}.late{color:var(--r);font-weight:800}
+.modal{position:fixed;inset:0;background:#07101ea8;display:none;align-items:center;justify-content:center;z-index:100;padding:18px}.modal.open{display:flex}.box{width:min(800px,96vw);max-height:94vh;overflow:auto;background:var(--p);border-radius:15px}.mh,.mf{display:flex;align-items:center;padding:15px 18px;border-bottom:1px solid var(--l)}.mh{justify-content:space-between}.mf{justify-content:flex-end;gap:8px;border-top:1px solid var(--l);border-bottom:0}.mb{padding:18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:5px}.full{grid-column:1/-1}.field label{font-size:12px;color:var(--m);font-weight:700}.field input,.field select,.field textarea{padding:10px;border:1px solid var(--l);border-radius:8px;background:var(--p);color:var(--t)}textarea{min-height:120px;resize:vertical}.checks{display:flex;gap:22px;padding:8px 0}
+#gate{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#081a35,#0d2b57)}.login{background:#fff;color:#172033;width:min(390px,90vw);padding:35px;border-radius:17px;text-align:center}.login input,.login button{width:100%;padding:13px;margin-top:12px;border-radius:9px}.login input{border:1px solid #ddd}.login button{border:0;background:#165dff;color:#fff;font-weight:800}#err{display:none;color:#d00;margin-top:10px}
+.toast{position:fixed;right:18px;bottom:18px;background:#13213a;color:#fff;padding:11px 15px;border-radius:9px;z-index:1000}.sync{font-size:12px;color:var(--m);white-space:nowrap}
+@media(max-width:760px){.app{grid-template-columns:1fr}aside{position:fixed;left:-270px;width:250px;z-index:20;transition:.2s}.app.menu aside{left:0}.content{padding:12px}.hide{display:none}.head{flex-direction:column}.grid{grid-template-columns:1fr}.full{grid-column:auto}.sync{display:none}}
+</style>
+</head>
+<body>
+<div id="gate"><div class="login"><h2>BITLOGOS</h2><p>Inserisci la password</p><input id="pwd" type="password" placeholder="Password"><button id="login">Accedi</button><div id="err">Password non corretta</div></div></div>
+
+<div id="app" class="app">
+<aside>
+  <div class="brand"><div class="logo">BL</div><span><b>BITLOGOS</b><small>Activity Portfolio</small></span></div>
+  <button class="side-btn" id="allTasks"><span>☷</span><span class="cat-name">Tutte le attività</span></button>
+  <div class="side-title">Categorie</div><div id="cats"></div>
+  <button class="side-btn" id="newCat"><span>＋</span><span class="cat-name">Nuova categoria</span></button>
+</aside>
+<main>
+  <div class="header">
+    <button class="icon" id="menu">☰</button>
+    <div class="search"><input id="search" placeholder="Ricerca per attività, owner, descrizione o categoria..."></div>
+    <span class="sync" id="syncStatus">Non sincronizzato</span>
+    <button class="icon hide" id="theme">◐</button>
+    <button class="btn hide" id="importLocal">Importa dati locali</button>
+    <button class="btn primary" id="newTask">＋ Nuova attività</button>
+  </div>
+  <div class="content">
+    <div class="head"><div><h1>Portfolio Dashboard</h1><p>I dati sono salvati nel Google Sheet collegato.</p></div><div><button class="btn" id="csv">CSV</button> <button class="btn" onclick="print()">PDF</button></div></div>
+    <div class="kpis" id="kpis"></div>
+    <div id="filters"></div>
+    <div id="table"></div>
+  </div>
+</main>
+</div>
+
+<div class="modal" id="taskModal"><div class="box">
+  <div class="mh"><h2 id="taskTitle">Attività</h2><button class="icon" data-close="taskModal">×</button></div>
+  <form id="taskForm"><div class="mb"><input type="hidden" name="id"><div class="grid">
+    <div class="field"><label>Categoria</label><select name="category"></select></div>
+    <div class="field"><label>Stato</label><select name="status"></select></div>
+    <div class="field full"><label>Attività</label><input name="title" required></div>
+    <div class="field"><label>Owner</label><input name="owner"></div>
+    <div class="field"><label>Due Date</label><input type="date" name="dueDate"></div>
+    <div class="field full"><label>Descrizione</label><textarea name="description"></textarea></div>
+    <div class="field full"><label>Flag</label><div class="checks"><label><input type="checkbox" name="mail"> ✉ Mail</label><label><input type="checkbox" name="tel"> ☎ Telefonata</label></div></div>
+  </div><div id="formError" style="display:none;margin-top:12px;padding:10px;border-radius:8px;background:#fee2e2;color:#991b1b;font-weight:700"></div></div>
+  <div class="mf"><button type="button" class="btn danger" id="del" style="margin-right:auto">Elimina</button><button type="button" class="btn" id="dupModal">⧉ Duplica</button><button type="button" class="btn" data-close="taskModal">Annulla</button><button type="submit" class="btn primary" id="saveTaskBtn">Salva</button></div></form>
+</div></div>
+
+<div class="modal" id="catModal"><div class="box" style="max-width:480px">
+  <div class="mh"><h2>Categoria</h2><button class="icon" data-close="catModal">×</button></div>
+  <form id="catForm"><div class="mb"><input type="hidden" name="old"><div class="field"><label>Nome categoria</label><input name="name" required></div></div><div class="mf"><button type="button" class="btn" data-close="catModal">Annulla</button><button type="submit" class="btn primary">Salva</button></div></form>
+</div></div>
+
+<script>
+/* ===== CONFIGURAZIONE: incolla qui i valori ottenuti da Apps Script ===== */
+const API_URL = "INCOLLA_QUI_URL_WEB_APP";
+const API_TOKEN = "BITLOGOS_SOSTITUISCI_CON_TOKEN_LUNGO";
+const ACCESS_PASSWORD = "2013!";
+/* ===================================================================== */
+
+const C={localKey:'bitlogos.activities.v1',prefsKey:'bitlogos.preferences',cats:['Fix BB','Mobile','Infra','EN','CDN','M&E','Compliance','Budget','TV','HR','Corporate','AI','Inno','Revenue','Other','HUB','P-Cloud'],st:['To Do','Planned','In Progress','Waiting','On Hold','Escalated','Completed','Cancelled']};
+const U={id:()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),iso:()=>new Date().toISOString(),today:()=>new Date().toISOString().slice(0,10),esc:s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])),date:s=>s?new Date(s+'T00:00:00').toLocaleDateString('it-IT'):'—',open:t=>!['Completed','Cancelled'].includes(t.status),late:t=>U.open(t)&&t.dueDate&&t.dueDate<U.today(),toast:s=>{let e=document.createElement('div');e.className='toast';e.textContent=s;document.body.appendChild(e);setTimeout(()=>e.remove(),2500)},dl:(n,c,t)=>{let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click();URL.revokeObjectURL(a.href)}};
+const S={d:{categories:[],tasks:[]},prefs:{theme:'light',sidebar:false},loadPrefs(){try{this.prefs=JSON.parse(localStorage.getItem(C.prefsKey))||this.prefs}catch{}},savePrefs(){localStorage.setItem(C.prefsKey,JSON.stringify(this.prefs))}};
+const API={
+ async call(action,payload={}){
+   if(!API_URL.startsWith('https://script.google.com/')) throw new Error('Configura API_URL nel file index.html');
+   document.getElementById('syncStatus').textContent='Sincronizzazione...';
+   const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({token:API_TOKEN,action,payload})});
+   const j=await r.json();
+   if(!j.ok) throw new Error(j.error||'Errore API');
+   document.getElementById('syncStatus').textContent='Sincronizzato '+new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+   return j.data;
+ },
+ async load(){const d=await this.call('load');S.d.categories=d.categories?.length?d.categories:C.cats.map((name,order)=>({name,order}));S.d.tasks=d.tasks||[]},
+ async saveTask(task){return this.call('saveTask',task)},
+ async deleteTask(id){return this.call('deleteTask',{id})},
+ async saveCategory(payload){return this.call('saveCategory',payload)},
+ async deleteCategory(name){return this.call('deleteCategory',{name})},
+ async importAll(data){return this.call('importAll',data)}
+};
+const Q={q:'',f:{category:'',owner:'',status:'',scope:'all'},get(){let q=this.q.toLowerCase(),f=this.f;return S.d.tasks.filter(t=>{let h=[t.category,t.title,t.owner,t.status,t.description].join(' ').toLowerCase();return(!q||h.includes(q))&&(!f.category||t.category===f.category)&&(!f.owner||t.owner===f.owner)&&(!f.status||t.status===f.status)&&!(f.scope==='open'&&!U.open(t))&&!(f.scope==='completed'&&t.status!=='Completed')&&!(f.scope==='overdue'&&!U.late(t))})}};
+const UI={id:null,
+ async init(){S.loadPrefs();document.body.classList.toggle('dark',S.prefs.theme==='dark');document.getElementById('app').classList.toggle('collapsed',S.prefs.sidebar);this.bind();try{await API.load();this.render()}catch(e){document.getElementById('syncStatus').textContent='Errore collegamento';alert(e.message)}},
+ bind(){
+   document.getElementById('newTask').onclick=()=>this.open();
+   document.getElementById('newCat').onclick=()=>this.openCat();
+   document.getElementById('allTasks').onclick=()=>{Q.f.category='';this.render()};
+   document.getElementById('menu').onclick=()=>{let a=document.getElementById('app');if(innerWidth<760)a.classList.toggle('menu');else{S.prefs.sidebar=!S.prefs.sidebar;S.savePrefs();a.classList.toggle('collapsed')}};
+   document.getElementById('theme').onclick=()=>{S.prefs.theme=document.body.classList.toggle('dark')?'dark':'light';S.savePrefs()};
+   document.getElementById('search').oninput=e=>{Q.q=e.target.value;this.render()};
+   document.getElementById('taskForm').onsubmit=e=>this.save(e);
+   document.getElementById('catForm').onsubmit=e=>this.saveCat(e);
+   document.getElementById('del').onclick=()=>this.del();
+   document.getElementById('dupModal').onclick=()=>this.duplicate();
+   document.getElementById('csv').onclick=()=>this.csv();
+   document.getElementById('importLocal').onclick=()=>this.importLocal();
+   document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+ },
+ render(){this.cats();this.filters();this.kpis();this.table()},
+ cats(){let h='';for(const c of [...S.d.categories].sort((a,b)=>a.order-b.order)){let n=S.d.tasks.filter(t=>t.category===c.name).length;h+=`<button class="cat" data-cat="${U.esc(c.name)}"><span>•</span><span class="cat-name">${U.esc(c.name)}</span><span class="count">${n}</span></button>`}document.getElementById('cats').innerHTML=h;document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{Q.f.category=b.dataset.cat;this.render()})},
+ filters(){let owners=[...new Set(S.d.tasks.map(t=>t.owner).filter(Boolean))].sort();let opt=(a,v)=>'<option value="">Tutti</option>'+a.map(x=>`<option ${x===v?'selected':''}>${U.esc(x)}</option>`).join('');document.getElementById('filters').innerHTML=`<div class="toolbar"><select id="fOwner">${opt(owners,Q.f.owner)}</select><select id="fStatus">${opt(C.st,Q.f.status)}</select><select id="fScope"><option value="all">Tutte</option><option value="open" ${Q.f.scope==='open'?'selected':''}>Aperte</option><option value="overdue" ${Q.f.scope==='overdue'?'selected':''}>In ritardo</option><option value="completed" ${Q.f.scope==='completed'?'selected':''}>Completate</option></select><button class="btn" id="reset">Azzera filtri</button></div>`;document.getElementById('fOwner').onchange=e=>{Q.f.owner=e.target.value;this.render()};document.getElementById('fStatus').onchange=e=>{Q.f.status=e.target.value;this.render()};document.getElementById('fScope').onchange=e=>{Q.f.scope=e.target.value;this.render()};document.getElementById('reset').onclick=()=>{Q.f={category:'',owner:'',status:'',scope:'all'};Q.q='';document.getElementById('search').value='';this.render()}},
+ kpis(){let t=Q.get();document.getElementById('kpis').innerHTML=[['Totale',t.length],['Aperte',t.filter(U.open).length],['In corso',t.filter(x=>x.status==='In Progress').length],['In ritardo',t.filter(U.late).length],['Completate',t.filter(x=>x.status==='Completed').length]].map(x=>`<div class="kpi"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')},
+ table(){let t=Q.get().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));document.getElementById('table').innerHTML=`<div class="wrap"><table><thead><tr><th>Categoria</th><th>Attività</th><th>Owner</th><th>Stato</th><th>Descrizione</th><th>Due Date</th><th>Flag</th></tr></thead><tbody>${t.map(x=>`<tr data-id="${x.id}"><td>${U.esc(x.category)}</td><td><b>${U.esc(x.title)}</b></td><td>${U.esc(x.owner)||'—'}</td><td><span class="badge ${x.status==='Completed'?'green':x.status==='Escalated'?'red':x.status==='In Progress'?'blue':''}">${U.esc(x.status)}</span></td><td class="desc">${U.esc(x.description)||'—'}</td><td class="${U.late(x)?'late':''}">${U.date(x.dueDate)}</td><td><div class="flags">${x.mail?'<span class="flag">✉</span>':''}${x.tel?'<span class="flag">☎</span>':''}</div></td></tr>`).join('')||'<tr><td colspan="7">Nessuna attività</td></tr>'}</tbody></table></div>`;document.querySelectorAll('tr[data-id]').forEach(r=>r.onclick=()=>this.open(r.dataset.id))},
+ open(id=''){this.id=id||null;let t=id?S.d.tasks.find(x=>x.id===id):{id:'',category:Q.f.category||'Other',title:'',owner:'',status:'To Do',description:'',dueDate:'',mail:false,tel:false};let f=document.getElementById('taskForm');f.elements.id.value=t.id||'';f.elements.category.innerHTML=S.d.categories.sort((a,b)=>a.order-b.order).map(c=>`<option ${c.name===t.category?'selected':''}>${U.esc(c.name)}</option>`).join('');f.elements.status.innerHTML=C.st.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('');['title','owner','description','dueDate'].forEach(k=>f.elements[k].value=t[k]||'');f.elements.mail.checked=!!t.mail;f.elements.tel.checked=!!t.tel;document.getElementById('del').style.display=id?'block':'none';document.getElementById('dupModal').style.display=id?'block':'none';document.getElementById('taskModal').classList.add('open')},
+ async save(e){e.preventDefault();let f=e.target,now=U.iso(),old=S.d.tasks.find(x=>x.id===f.elements.id.value);let t={id:f.elements.id.value||U.id(),category:f.elements.category.value,title:f.elements.title.value.trim(),owner:f.elements.owner.value.trim(),status:f.elements.status.value,description:f.elements.description.value.trim(),dueDate:f.elements.dueDate.value,mail:f.elements.mail.checked,tel:f.elements.tel.checked,createdAt:old?.createdAt||now,updatedAt:now};if(!t.title)return;try{await API.saveTask(t);await API.load();document.getElementById('taskModal').classList.remove('open');this.render();U.toast('Attività BITLOGOS salvata su Google Drive')}catch(err){alert(err.message)}},
+ async del(){if(!this.id||!confirm('Eliminare questa attività?'))return;try{await API.deleteTask(this.id);await API.load();document.getElementById('taskModal').classList.remove('open');this.render();U.toast('Attività eliminata')}catch(err){alert(err.message)}},
+ async duplicate(){let old=S.d.tasks.find(x=>x.id===this.id);if(!old)return;let now=U.iso(),copy={...old,id:U.id(),title:old.title+' - copia',createdAt:now,updatedAt:now};try{await API.saveTask(copy);await API.load();document.getElementById('taskModal').classList.remove('open');this.render();U.toast('Attività duplicata')}catch(err){alert(err.message)}},
+ openCat(){let f=document.getElementById('catForm');f.reset();document.getElementById('catModal').classList.add('open')},
+ async saveCat(e){e.preventDefault();let name=e.target.elements.name.value.trim();if(!name)return;try{await API.saveCategory({name,old:e.target.elements.old.value||''});await API.load();document.getElementById('catModal').classList.remove('open');this.render();U.toast('Categoria salvata')}catch(err){alert(err.message)}},
+ async importLocal(){let raw=localStorage.getItem(C.localKey);if(!raw)return alert('Nessun dato locale trovato in questo browser.');if(!confirm('Importare nel Google Sheet i dati locali? Le attività con lo stesso ID saranno aggiornate.'))return;try{let d=JSON.parse(raw);await API.importAll({categories:d.categories||[],tasks:d.tasks||[]});await API.load();this.render();U.toast('Dati locali importati')}catch(err){alert('Importazione non riuscita: '+err.message)}},
+ csv(){let rows=[['Categoria','Attività','Owner','Stato','Descrizione','Due Date','Mail','Telefonata'],...Q.get().map(t=>[t.category,t.title,t.owner,t.status,t.description,t.dueDate,t.mail?'Sì':'No',t.tel?'Sì':'No'])];let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(';')).join('\n');U.dl('bitlogos.csv','\ufeff'+csv,'text/csv')}}
+document.getElementById('login').onclick=()=>{if(document.getElementById('pwd').value===ACCESS_PASSWORD){document.getElementById('gate').style.display='none';UI.init()}else document.getElementById('err').style.display='block'};
+document.getElementById('pwd').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('login').click()});
+</script>
+</body>
+</html>
